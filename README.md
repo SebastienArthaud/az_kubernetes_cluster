@@ -29,8 +29,9 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aks_subnet_id"></a> [aks\_subnet\_id](#input\_aks\_subnet\_id) | ID du subnet ou le cluster sera déployé | `string` | n/a | yes |
 | <a name="input_container_registry_id"></a> [container\_registry\_id](#input\_container\_registry\_id) | The resource Id of Azure Container Registry.<br/><br/>  NOTE :<br/>  The container\_registry\_id requires an ACR with a private link to the cluster. <br/>  You must manage permissions, cache rules, the associated private link and the private endpoint. <br/>  Please see the product documentation for more information on configuring an ACR with a private endpoint. | `string` | n/a | yes |
+| <a name="input_default_node_pool_pod_subnet_id"></a> [default\_node\_pool\_pod\_subnet\_id](#input\_default\_node\_pool\_pod\_subnet\_id) | ID du subnet ou les pods du default node pool sera déployé | `string` | n/a | yes |
+| <a name="input_default_node_pool_subnet_id"></a> [default\_node\_pool\_subnet\_id](#input\_default\_node\_pool\_subnet\_id) | ID du subnet ou le default node pool sera déployé | `string` | n/a | yes |
 | <a name="input_log_analytics_worspace_name"></a> [log\_analytics\_worspace\_name](#input\_log\_analytics\_worspace\_name) | Name of the log analytics workspace if the variable 'enable\_logs\_analytics\_workspace' is set to true<br/><br/>  NOTE:<br/>  63 letters, digits or '-'. <br/>  The '-' shouldn't be the first or the last symbol. <br/>  Changing this forces a new resource to be created. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Nom du cluster AKS | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Resource group name | `string` | n/a | yes |
@@ -75,5 +76,7 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_aks_cluster_id"></a> [aks\_cluster\_id](#output\_aks\_cluster\_id) | n/a |
 <!-- END_TF_DOCS -->

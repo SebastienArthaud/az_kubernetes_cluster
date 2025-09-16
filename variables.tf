@@ -21,6 +21,16 @@ variable "private_cluster_dns_rg" {
 
 
 
+
+
+
+
+
+
+
+
+
+
 ##########################
 #      AKS CLUSTER
 ##########################
@@ -77,10 +87,15 @@ variable "default_node_pool_max_pods" {
   default     = null
 }
 
-variable "aks_subnet_id" {
+variable "default_node_pool_subnet_id" {
   type        = string
-  description = "ID du subnet ou le cluster sera déployé"
+  description = "ID du subnet ou le default node pool sera déployé"
 
+}
+
+variable "default_node_pool_pod_subnet_id" {
+  type        = string
+  description = "ID du subnet ou les pods du default node pool sera déployé"
 }
 
 variable "default_node_pool_labels" {
@@ -122,67 +137,67 @@ variable "default_node_pool_tags" {
 }
 
 variable "default_node_pool_zones" {
-  type = list(string)
+  type        = list(string)
   description = "Specifies a list of Availability Zones in which this Kubernetes Cluster should be located. temporary_name_for_rotation must be specified when changing this property."
-  default = null
+  default     = null
 }
 
 variable "default_node_pool_max_count" {
-  type = number
+  type        = number
   description = "The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
-  default = null
+  default     = null
 }
 
 variable "default_node_pool_min_count" {
-  type = number
+  type        = number
   description = "The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
-  default = null
+  default     = null
 }
 
 variable "default_node_pool_node_count" {
-  type = number
+  type        = number
   description = "The initial number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
-  default = null
+  default     = null
 }
 
 variable "automatic_upgrade_channel" {
-  type = string
+  type        = string
   description = "imageandstable. Omitting this field sets this value to none`.!> Note: Cluster Auto-Upgrade will update the Kubernetes Cluster (and its Node Pools) to the latest GA version of Kubernetes automatically - please see 'https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel' for more information."
-  default = "node-image"
+  default     = "node-image"
 }
 
 variable "azure_rbac_enabled" {
-  type = bool
+  type        = bool
   description = "Is Role Based Access Control based on Azure AD enabled?"
-  default = true
+  default     = true
 }
 
 variable "azure_policy_enabled" {
-  type = bool
+  type        = bool
   description = "Enhance your AKS cluster governance by installin the azure policy extension on your cluster allowing the azure policy to check your cluster, pods and nodes compliance"
-  default = false
+  default     = false
 }
 
 variable "confidential_computing_sgx_quote_helper_enabled" {
-  type = bool
+  type        = bool
   description = "Should the SGX quote helper be enabled?"
-  default = false
+  default     = false
 }
 
 variable "cost_analysis_enabled" {
-  type = bool
+  type        = bool
   description = "Should cost analysis be enabled for this Kubernetes Cluster? Defaults to false. The sku_tier must be set to Standard or Premium to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal."
-  default = false
+  default     = false
 }
 
 variable "sku_tier" {
-  type = string
+  type        = string
   description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free, Standard (which includes the Uptime SLA) and Premium. Defaults to Free."
-  default = "Free"
+  default     = "Free"
 }
 
 variable "identity_or_service_principal" {
-  type = string
+  type        = string
   description = <<DESCRIPTION
   Will this cluster use an Identoty entity to be able to access other azure resources or a service principal ?"
 
@@ -201,36 +216,36 @@ variable "identity_type" {
 variable "user_assigned_identity_id" {
   type        = string
   description = "ID de l'UAI si la variable 'identity_type' est égal à 'UserAssigned'"
-  default = null
+  default     = null
 }
 
 
 variable "service_principal_client_id" {
-  type = string
+  type        = string
   description = "Client ID du SPN utilisé si la variable 'identity_or_service_principal' est défini sur 'ServicePrincipal'"
-  default = null
+  default     = null
 }
 
 variable "service_principal_client_secret" {
-  type = string
+  type        = string
   description = "Secret du SPN utilisé si la variable 'identity_or_service_principal' est défini sur 'ServicePrincipal'"
-  default = null
+  default     = null
 }
 
 variable "node_resource_group" {
-  type = string
+  type        = string
   description = "The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created."
-  default = null
+  default     = null
 }
 
 variable "network_profile_network_plugin" {
-  type = string
+  type        = string
   description = "Network plugin to use for networking. Currently supported values are azure, kubenet and none. Changing this forces a new resource to be created"
-  default = "azure"
+  default     = "azure"
 }
 
 variable "network_profile_network_policy" {
-  type = string
+  type        = string
   description = <<DESCRIPTION
   Sets up network policy to be used with Azure CNI. 
   Network policy allows us to control the traffic flow between pods. Currently supported values are calico, azure and cilium.
@@ -242,19 +257,19 @@ variable "network_profile_network_policy" {
 }
 
 variable "network_profile_kube_dns_service_ip" {
-  type = string
+  type        = string
   description = "IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns)"
-  default = null
+  default     = null
 }
 
 variable "network_profile_outbound_type" {
-  type = string
+  type        = string
   description = "The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer, userDefinedRouting, managedNATGateway, userAssignedNATGateway and none"
-  default = "loadBalancer"
+  default     = "loadBalancer"
 }
 
 variable "container_registry_id" {
-  type = string
+  type        = string
   description = <<DESCRIPTION
   The resource Id of Azure Container Registry.
 
@@ -267,15 +282,41 @@ variable "container_registry_id" {
 }
 
 
+variable "network_profile_pod_cidr" {
+  type        = string
+  description = "The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet or network_plugin_mode is set to overlay. Changing this forces a new resource to be created."
+  default     = null
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##########################
+# LOG ANALYTICS WORSPACE #
+##########################
 variable "enable_logs_analytics_workspace" {
-  type = bool
+  type        = bool
   description = "Enables or not the Kubernetes cluster logs gathering into a Log analytics workspace"
-  default = false
+  default     = false
 }
 
 
 variable "log_analytics_worspace_name" {
-  type = string
+  type        = string
   description = <<DESCRIPTION
   Name of the log analytics workspace if the variable 'enable_logs_analytics_workspace' is set to true
 
@@ -286,13 +327,3 @@ variable "log_analytics_worspace_name" {
   DESCRIPTION
 
 }
-
-
-variable "network_profile_pod_cidr" {
-  type = string
-  description = "The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet or network_plugin_mode is set to overlay. Changing this forces a new resource to be created."
-  default = null
-}
-##########################
-# LOG ANALYTICS WORSPACE #
-##########################

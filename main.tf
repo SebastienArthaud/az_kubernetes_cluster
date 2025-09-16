@@ -17,11 +17,11 @@ resource "azurerm_kubernetes_cluster" "my_aks_cluster" {
     name                         = var.default_node_pool_name
     vm_size                      = var.default_node_pool_vm_size
     max_pods                     = var.default_node_pool_max_pods
-    pod_subnet_id                = var.aks_subnet_id
+    pod_subnet_id                = var.default_node_pool_subnet_id
     node_labels                  = var.default_node_pool_labels
     os_sku                       = var.default_node_pool_os_sku
     proximity_placement_group_id = var.default_node_pool_proximity_placement_group_id
-    vnet_subnet_id               = var.aks_subnet_id
+    vnet_subnet_id               = var.default_node_pool_pod_subnet_id
     auto_scaling_enabled         = var.default_node_pool_auto_scaling_enabled
     scale_down_mode              = var.default_node_pool_scale_down_mode
     type                         = var.default_node_pool_type
