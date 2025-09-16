@@ -75,7 +75,7 @@ resource "azurerm_kubernetes_cluster" "my_aks_cluster" {
     network_policy = var.network_profile_network_policy
     dns_service_ip = var.network_profile_kube_dns_service_ip
     outbound_type  = var.network_profile_outbound_type
-    pod_cidr       = var.network_profile_network_plugin == "kubenet" ? var.network_profile_pod_cidrs : null
+    pod_cidr       = var.network_profile_network_plugin == "kubenet" ? var.network_profile_pod_cidr : null
 
   }
 

@@ -286,6 +286,13 @@ variable "log_analytics_worspace_name" {
   DESCRIPTION
 
 }
+
+
+variable "network_profile_pod_cidr" {
+  type = string
+  description = "The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet or network_plugin_mode is set to overlay. Changing this forces a new resource to be created."
+  default = null
+}
 ##########################
 # LOG ANALYTICS WORSPACE #
 ##########################
